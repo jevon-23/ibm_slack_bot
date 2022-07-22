@@ -16,11 +16,10 @@ Now the environment is set up, to spin up the bot run <br> <br>
 
 ```python3 app.py```
 
-<br> <br>
-
 Bot is now up and running. To interact with the bot, go to a workspace that you share with the bot and run /find.
 <br> <br>
 
+# Interacting with the bot
 Usage:
 ```
 /find {control_block} info -> returns what sections of info is block has

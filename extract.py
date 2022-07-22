@@ -10,6 +10,7 @@ def strip_text(contents):
         extract.append(value)
     return extract
 
+# Helper function to help extract both the info section and the prog_interface_info
 def extract_info(bscontents, tag, the_class):
     # Find all lines w/ this tag & class
     info = bscontents.find_all(tag, class_=the_class)

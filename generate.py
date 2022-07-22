@@ -42,9 +42,34 @@ def generate_heading(control_block):
 def generate_prog_interf_info(control_block):
     return url_prefix + 'information-'+control_block+'-programming-interface'
 
+# Chooses the correct url extension based on the control block being passed in 
+def info_section(control_block):
+    cb = control_block.upper()
+    vol_1 = 'iax-'
+    vol_2 = 'isg-'
+    vol_3 = 'sce-'
+    vol_4 = 'xtl-'
+
+    print(cb, str(len(cb)))
+    if cb[:3] <= 'IAX' and cb[3] <= 'C':
+        if len(cb) < 5 or (len(cb) > 4 and cb[4] <= 'N'):
+            return vol_1
+    elif cb[:3] <= 'ISG' or (cb[:3] == 'IAX' and cb[4] <= 'P'):
+        return vol_2
+    elif cb[:3] < 'SCE':
+        return vol_3
+    elif cb[:3] == 'SCE':
+        return ''
+    elif cb[:3] <= 'XTL':
+        return vol_4
+    else:
+        print("invalid input for cb: " + cb)
+        exit(-1)
+    return
+
 # Genrates a url for the info of CONTROL_BLOCK
 def generate_info(control_block):
-        return url_prefix + 'iax-'+control_block+'-information'
+        return url_prefix + info_section(control_block) +control_block.lower()+'-information'
 
 # Map data area types to their given their url functions
 url_gens = {
@@ -56,6 +81,7 @@ url_gens = {
 
 # Gets the TYP webpage for CONTROL_BLOCK
 def url_generator(control_block, typ):
+    control_block = control_block.lower()
     url = url_gens[typ](control_block)
     print(url)
     html = get_website(url)

@@ -1,12 +1,21 @@
+"""
+EXTRACTS THE TEXT THAT IS STORED WITHIN THE HTML THAT IS PASSED IN
+
+TAKES IN HTML FROM URL GENERATE, WHICH COMES FROM A REQUEST OBJECT
+TURN THAT REQUEST OBJECT IN TO A BS4 OBJECT, AND PARSE BS4 CONTENTS
+FOR THE TEXT DATA
+"""
+
 from bs4 import BeautifulSoup 
 import generate
 
 # Extracts the text from the nested tag CONTENTS
 def strip_text(contents):
     extract = []
+    # Extract text from every line in CONTENTS
     for line in contents:
         value = line.text
-        value = value.replace("Â","")
+        value = value.replace("Â","") # Value that was being used for \t
         extract.append(value)
     return extract
 
@@ -19,18 +28,13 @@ def extract_info(bscontents, tag, the_class):
     extract = strip_text(info)
     return [extract]
 
-# Extract function for info
-def extract_info_info(bscontents):
-    return extract_info(bscontents, 'li', "link ulchildlink")
-
-# Extract function for program interface info
-def extract_prog_interf_info(bscontents):
-    return extract_info(bscontents, 'li', 'li')
-
 # Extract function for headding & map
 def extract_table(bscontents):
+    # Find all of the headings 
     head = bscontents.find_all('tr', class_='row')
     extract = []
+
+    # Find all of the texts within the headings and save them as a tuple to EXTRACT
     for line in head:
         contents = line.find_all('td', class_='entry')
         data = strip_text(contents)
@@ -39,6 +43,14 @@ def extract_table(bscontents):
         extract.append(pair)
 
     return extract
+
+# Extract function for info
+def extract_info_info(bscontents):
+    return extract_info(bscontents, 'li', "link ulchildlink")
+
+# Extract function for program interface info
+def extract_prog_interf_info(bscontents):
+    return extract_info(bscontents, 'li', 'li')
 
 
 # Switch case for functions to call based on type

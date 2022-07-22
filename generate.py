@@ -1,3 +1,11 @@
+"""
+GENERATES A URL AND RETURNS BACK THE HTML OF THE WEBPAGE ASSOCIATED WITH THAT URL
+
+WE ARE ONLY WEBSCRAPING THE Z/OS BOOK, SO BASED ON THE DESIRED CONTROL BLOCK AND 
+VERION, WE CAN GENERATE A URL THAT IS ASSOCIATED W/ THE CONTROL BLOCK WE WANT INFO
+ABOUT
+"""
+
 import requests
 import re
 
@@ -45,12 +53,14 @@ def generate_prog_interf_info(control_block):
 # Chooses the correct url extension based on the control block being passed in 
 def info_section(control_block):
     cb = control_block.upper()
+
+    # 4 Volumes that split of the book into sections; 
+    # each one containting a subsection of all ctrl blocks
     vol_1 = 'iax-'
     vol_2 = 'isg-'
     vol_3 = 'sce-'
     vol_4 = 'xtl-'
 
-    print(cb, str(len(cb)))
     if cb[:3] <= 'IAX' and cb[3] <= 'C':
         if len(cb) < 5 or (len(cb) > 4 and cb[4] <= 'N'):
             return vol_1

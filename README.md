@@ -14,6 +14,10 @@ Next save the environment variables for your app and the bot <br>
 
 Now the environment is set up, to spin up the bot run <br> <br>
 
+Using Docker:<br><br>
+```docker compose up```
+<br><br>
+Commandline:<br><br>
 ```python3 app.py```
 
 Bot is now up and running. To interact with the bot, go to a workspace that you share with the bot and run /find.

@@ -13,14 +13,14 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 
 # Signature to create an identifier for '/find' command in slack app
-@app.command("/find")
+@app.command("/cbfind")
 def handle_some_command(ack, body, logger, say):
     # Acknowledge that we are connecting to the bot  (tcp protocol i believe? )
     ack()
 
     # Find the command that was passed in that called our bot & error check
     command = body['command']
-    if (command != '/find'):
+    if (command != '/cbfind'):
         say(f"Bot should not be called")
         exit(-1)
 

@@ -12,7 +12,8 @@ import generate
 # Extracts the text from the nested tag CONTENTS
 def strip_text(contents):
     extract = []
-    # Extract text from every line in CONTENTS
+
+    # Extract the text from every line in CONTENTS
     for line in contents:
         value = line.text
         value = value.replace("Â","") # Value that was being used for \t
@@ -21,7 +22,7 @@ def strip_text(contents):
 
 # Helper function to help extract both the info section and the prog_interface_info
 def extract_info(bscontents, tag, the_class):
-    # Find all lines w/ this tag & class
+    # Find all lines w/ TAG & CLASS
     info = bscontents.find_all(tag, class_=the_class)
 
     # Extract the text nested in the tags, and append them to extract
@@ -29,36 +30,29 @@ def extract_info(bscontents, tag, the_class):
     return [extract]
 
 # Extract function for headding & map
-def extract_table(bscontents):
+def extract_table(bscontents, unused1, unused2):
     # Find all of the headings 
     head = bscontents.find_all('tr', class_='row')
     extract = []
 
-    # Find all of the texts within the headings and save them as a tuple to EXTRACT
+    # Find all of the texts within the headings and 
     for line in head:
+        # Find text sections within headings 
         contents = line.find_all('td', class_='entry')
         data = strip_text(contents)
 
+        # Save them as a tuple to EXTRACT
         pair = [x for x in data]
         extract.append(pair)
 
     return extract
 
-# Extract function for info
-def extract_info_info(bscontents):
-    return extract_info(bscontents, 'li', "link ulchildlink")
-
-# Extract function for program interface info
-def extract_prog_interf_info(bscontents):
-    return extract_info(bscontents, 'li', 'li')
-
-
-# Switch case for functions to call based on type
+# Switch case for functions to call based on type, alongside their arguments
 extract_funcs = {
-        generate.PII : extract_prog_interf_info,
-        generate.INFO: extract_info_info,
-        generate.HEAD: extract_table,
-        generate.MAPP: extract_table,
+        generate.PII : [extract_info,'li', 'li'],
+        generate.INFO: [extract_info,'li', "link ulchildlink"],
+        generate.HEAD: [extract_table, '', ''],
+        generate.MAPP: [extract_table, '', '']
 }
 
 """
@@ -75,6 +69,12 @@ OUTPUTS:
 def extract(contents, typ):
     # Change into bs4 object 
     scontents = BeautifulSoup(contents, 'html.parser')
-    return extract_funcs[typ](scontents)
 
+    # Get the extract function call and arguments, and run it 
+    extract_func_call = extract_funcs[typ]
+    func = extract_func_call[0]
+    args = extract_func_call[1:]
+
+
+    return func(scontents, args[0], args[1])
 

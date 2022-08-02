@@ -21,37 +21,16 @@ PII = 'inter'
 HEAD = 'head'
 MAPP = 'map'
 
-# Returns a list of all of the lines in CONTENTS that contains VALUE
-def grep(contents, value):
-    out = []
-    data = contents.split("\n")
-    for line in data:
-        if value in line:
-            out.append(line)
-
-    for i in out:
-        print(i)
-    return out
-
 # Retrieves the html for URL.
 def get_website(url):
     web = requests.get(url).text
     return web
 
-# Genrates a url for the mapping of CONTROL_BLOCK
-def generate_mapping(control_block):
-    return url_prefix + 'information-'+control_block+'-mapping'
-
-# Genrates a url for the heading of CONTROL_BLOCK
-def generate_heading(control_block):
-    return url_prefix + 'information-'+control_block+'-heading'
-
-# Genrates a url for the program interface info of CONTROL_BLOCK
-def generate_prog_interf_info(control_block):
-    return url_prefix + 'information-'+control_block+'-programming-interface'
-
 # Chooses the correct url extension based on the control block being passed in 
 def info_section(control_block):
+    if (control_block == 'information-'):
+        return control_block
+    
     cb = control_block.upper()
 
     # 4 Volumes that split of the book into sections; 
@@ -77,22 +56,45 @@ def info_section(control_block):
         exit(-1)
     return
 
-# Genrates a url for the info of CONTROL_BLOCK
-def generate_info(control_block):
-        return url_prefix + info_section(control_block) +control_block.lower()+'-information'
+########################################################################
+# Function: Generates a url based on CONTROL_BLCOK and ARGS            #
+# EXAMPLE URLS FOR FORMATTING:                                         #
+# https://www.ibm.com/docs/en/zos/2.2.0?topic=iax-ascb-information     #
+# | url_prefix                   (vers)      |inf|cb  |typ       |     #
+#                                            (generate_url_args + cb)  #
+# https://www.ibm.com/docs/en/zos/2.2.0?topic=information-ascb-heading #
+# | url_prefix                   (vers)      |info       | cb | typ    #
+########################################################################
+def generate_url(control_block, args):
+    info = args[0]
+    typ = args[1]
 
-# Map data area types to their given their url functions
-url_gens = {
-        INFO: generate_info,
-        PII:  generate_prog_interf_info,
-        HEAD: generate_heading,
-        MAPP: generate_mapping,
+    # If we are dealing w/ control_block info, get the volume
+    if (info == ""):
+        info = info_section(control_block)
+
+    return url_prefix + info + control_block + typ
+
+# Based on data type area, return the arguments needed to generate its url
+generate_url_args = {
+        INFO: ["", '-information'],
+        PII:  ['information-', '-programming-interface'],
+        HEAD: ['information-', '-heading'],
+        MAPP: ['information-', '-mapping'],
 }
 
 # Gets the TYP webpage for CONTROL_BLOCK
 def url_generator(control_block, typ):
     control_block = control_block.lower()
-    url = url_gens[typ](control_block)
+
+    # Get the arguments for generate url based on type
+    args = generate_url_args[typ]
+
+    # Generate url
+    url = generate_url(control_block, args)
+
     print(url)
+
+    # Generate html
     html = get_website(url)
     return html;

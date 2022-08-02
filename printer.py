@@ -47,12 +47,15 @@ def print_mapp_row(name, extracted, off_name):
         if len(line) < 3: 
             continue
         if off_name.isdigit() == True:
+            # If given an offset in decimal
             if len(line[0]) > 0 and line[0].isdigit() and int(line[0]) == int(off_name):
                 out += print_mapp_line(line)
+        # If given an offset in hex
         elif '-x' in off_name.lower() and '('+off_name.lower()[2:]+')' == line[1]:
             out += print_mapp_line(line)
 
         else:
+            # If given the name
             check = ' '.join([str(word) for word in line])
             if off_name in check:
                 out += print_mapp_line(line)
@@ -64,6 +67,7 @@ Print out a heading row of the based on the OFF_NAME
 def print_head_row(name, extracted, row_key):
     out = ''
     for line in extracted:
+        # Find the lines w/ the key value that we are looking for 
         if row_key.lower() in line[0].lower():
             key = line[0]
             value = line[1]
@@ -81,8 +85,8 @@ def print_mapp(name, extracted):
     
     out = ''
     for line in extracted:
-        p = '\t'.join([str(word) for word in line])
-        out += p + '\n--------\n'
+        string = '\t'.join([str(word) for word in line])
+        out += string + '\n--------\n'
 
     if (len(out) == 0):
         return ''
@@ -116,6 +120,7 @@ def print_info(extracted):
     out =  ''
     extracted = extracted[0]
 
+    # Format and output
     for info in extracted:
         out += "\t- " + str(info) + '\n'
 
@@ -132,6 +137,7 @@ def print_prog_interf_info(name, extracted):
     if (not len(info)):
         return ''
     else:
+        # Format string and output
         out = ''
         out += name.upper() + " Programming Interface Information\n"
         out += "The following fields are part of the programming interface information\n"
@@ -149,6 +155,8 @@ def print_info_info(name, extracted):
     # Did not extract anymore information, so return none
     if (not len(info)):
         return out
+
+    # Format string and output
     out = name.upper() + " Information" + '\n'
     out += info
     return out

@@ -26,22 +26,22 @@ Bot is now up and running. To interact with the bot, go to a workspace that you 
 # Interacting with the bot
 Usage:
 ```
-/find {control_block} info -> returns what sections of info is block has
-  /find ascb info 
-/find {control_block} inter -> Returns Programming Interface Information
-  /find ascb inter 
-/find {control_block} head -> Returns the heading information 
-  /find ascb head
-/find {control_block} map -> Returns back the entire mapping of this control_block
-  /find ascb map
+/cbfind {control_block} info -> returns what sections of info is block has
+  /cbfind ascb info 
+/cbfind {control_block} inter -> Returns Programming Interface Information
+  /cbfind ascb inter 
+/cbfind {control_block} head -> Returns the heading information 
+  /cbfind ascb head
+/cbfind {control_block} map -> Returns back the entire mapping of this control_block
+  /cbfind ascb map
 
-/find {control_block} head {row_name} -> Returns a specific row out of head w/ the key value ROW_NAME
-  /find ascb head common
-/find {control_block}  map {row_name} -> Returns back the row of this control_blocks' mapping associated w/ ROW_NAME
-  /find ascb  map ascbascb 
-/find {control_block}  map {dec_offset} -> Returns back the row that has the decimal offset DEC_OFFSET
-  /find ascb map 20
-/find {control_block} map -x{hex_offset} -> Returns back the row that has the hex offset of HEX_OFFSET
-  /find ascb map -x20
+/cbfind {control_block} head {row_name} -> Returns a specific row out of head w/ the key value ROW_NAME
+  /cbfind ascb head common
+/cbfind {control_block}  map {row_name} -> Returns back the row of this control_blocks' mapping associated w/ ROW_NAME
+  /cbfind ascb  map ascbascb 
+/cbfind {control_block}  map {dec_offset} -> Returns back the row that has the decimal offset DEC_OFFSET
+  /cbfind ascb map 20
+/cbfind {control_block} map -x{hex_offset} -> Returns back the row that has the hex offset of HEX_OFFSET
+  /cbfind ascb map -x20
   
 ```

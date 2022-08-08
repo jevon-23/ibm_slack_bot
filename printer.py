@@ -51,7 +51,7 @@ def print_mapp_row(name, extracted, off_name):
             if len(line[0]) > 0 and line[0].isdigit() and int(line[0]) == int(off_name):
                 out += print_mapp_line(line)
         # If given an offset in hex
-        elif '-x' in off_name.lower() and '('+off_name.lower()[2:]+')' == line[1]:
+        elif '-x' in off_name.lower() and '('+off_name.upper()[2:]+')' == line[1]:
             out += print_mapp_line(line)
 
         else:

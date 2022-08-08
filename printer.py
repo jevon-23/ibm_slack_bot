@@ -75,7 +75,7 @@ def print_head_row(name, extracted, row_key):
             out += key + '\n'
 
             for v in value_list:
-                out += "\t" + v
+                out += "\t" + v + "\n"
     return out
 
 """
